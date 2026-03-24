@@ -5,13 +5,15 @@
 `include "Instruction_memory.v"
 `include "register_file.v"
 `include "sign_extend.v"
+`include "control_unit_top.v"
+`include "PC_Adder"
 
 module single_cycle_top(rst,clk);
 
 input clk, rst;
-wire [31:0] PC_Top, RD_Instr,RD1_Top,Imm_ext_top;
-
-PC pc(.PC_Next(),
+wire [31:0] PC_Top, RD_Instr,RD1_Top,Imm_ext_top,ALU_CONTROL_TOP,AluResult,ReadData,PC_PLUS4;
+wire RegWrite;
+PC pc(.PC_Next(PC_PLUS4),
       .clk(clk),
       .reset(rst),
       .PC(PC_Top));
@@ -22,9 +24,9 @@ Instruction_memory Instmem(.A(PC_Top),
 
 register_file rf(.A1(RD_Instr[19:15]),
                  .A2(),
-                 .A3(),
-                 .WD3(),
-                 .WE3(),
+                 .A3(RD_Instr[11:7]),
+                 .WD3(ReadData),
+                 .WE3(RegWrite),
                  .clk(clk),
                  .rst(rst),
                  .RD1(RD1_Top),
@@ -35,13 +37,35 @@ sign_extend se(.In(RD_Instr),
 
 alu ALU(.A(RD1_Top),
         .B(Imm_ext_top),
-        .ALU_CONTROL(),
-        .ALU_OUT(),
+        .ALU_CONTROL(ALU_CONTROL_TOP),
+        .ALU_OUT(AluResult),
         .zero(),
         .carry(),
         .overflow(),
         .negative());
 
-main_decoder md(zero,opcode,PC_Src,Result_Src,Mem_write,ALU_Src,ImmSrc,Reg_Write,ALU_OP);
+control_unit_top control(
+                        .zero(),
+                        .opcode(RD_Instr[6:0]),
+                        .Result_Src(),
+                        .Mem_write(),
+                        .ALU_Src(),
+                        .ImmSrc(),
+                        .PC_Src(),
+                        .Reg_Write(RegWrite),
+                        .func_7(),
+                        .func_3(RD_Instr[14:12]),
+                        .ALU_CONTROL(ALU_CONTROL_TOP));
+
+data_mem datamem(.WE(),
+                 .A(AluResult),
+                 .WD(),
+                 .clk(clk),
+                 .rst(rst),
+                 .RD(ReadData));
+
+PC_Adder pcadder(.a(PC),
+                 .b(32'd4),
+                 .c(PC_PLUS4));
 
 endmodule
