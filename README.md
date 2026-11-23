@@ -168,6 +168,8 @@ The following waveform captures the instruction-fetch sequence and branch execut
 
 ![RISC-V Single-Cycle Processor Simulation Waveform](riscv_waveform.png)
 
+![Overall RISC-V Architecture](images)
+
 The waveform demonstrates:
 
 - Clock operation and reset release.
