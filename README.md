@@ -166,7 +166,7 @@ FINAL SUMMARY: ALL TESTS PASSED
 
 The following waveform captures the instruction-fetch sequence and branch execution checks.
 
-(images/riscv_waveform.png)
+![RISC-V Single-Cycle Processor Simulation Waveform](riscv_waveform.png)
 
 The waveform demonstrates:
 
