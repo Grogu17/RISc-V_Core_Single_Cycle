@@ -50,7 +50,10 @@ The processor consists of interconnected datapath and control units responsible 
 
 ### Instruction Execution Flow
 
-
+![Overall RISC-V Architecture](images/3.jpeg)
+![Overall RISC-V Architecture](images/2.jpeg)
+![Overall RISC-V Architecture](images/4.jpeg)
+![Overall RISC-V Architecture](images/1.jpeg)
 
 ## 4. RTL Module Organization
 
