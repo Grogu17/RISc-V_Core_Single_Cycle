@@ -416,3 +416,30 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# =====================================
+# FPGA / Verilog / Vivado / ModelSim
+# =====================================
+
+# ModelSim simulation outputs
+trace.list
+transcript
+vsim.wlf
+work/
+
+# Vivado generated files
+.Xil/
+.cache/
+.sim/
+.hw/
+ip_user_files/
+*.jou
+*.wdb
+*.pb
+*.bit
+*.ltx
+*.dcp
+
+# Temporary simulation files
+*.vcd
+*.fst
+*.lxt
